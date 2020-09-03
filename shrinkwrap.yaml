@@ -1,0 +1,106 @@
+dependencies:
+  phaser: 3.22.0
+packages:
+  /big.js/5.2.2:
+    dev: false
+    resolution:
+      integrity: sha512-vyL2OymJxmarO8gxMr0mhChsO9QGwhynfuu4+MHTAW6czfq9humCB7rKpUjDd9YUiDPU4mzpyupFSvOClAwbmQ==
+  /emojis-list/3.0.0:
+    dev: false
+    engines:
+      node: '>= 4'
+    resolution:
+      integrity: sha512-/kyM18EfinwXZbno9FyUGeFh87KC8HRQBQGildHZbEuRyWFOmv1U10o9BBp8XVZDVNNuQKyIGIu5ZYAAXJ0V2Q==
+  /eventemitter3/3.1.2:
+    dev: false
+    resolution:
+      integrity: sha512-tvtQIeLVHjDkJYnzf2dgVMxfuSGJeM/7UCG17TT4EumTfNtF+0nebF/4zWOIkCreAbtNqhGEboB6BWrwqNaw4Q==
+  /exports-loader/0.7.0:
+    dependencies:
+      loader-utils: 1.4.0
+      source-map: 0.5.0
+    dev: false
+    engines:
+      node: '>= 4'
+    resolution:
+      integrity: sha512-RKwCrO4A6IiKm0pG3c9V46JxIHcDplwwGJn6+JJ1RcVnh/WSGJa0xkmk5cRVtgOPzCAtTMGj2F7nluh9L0vpSA==
+  /imports-loader/0.8.0:
+    dependencies:
+      loader-utils: 1.4.0
+      source-map: 0.6.1
+    dev: false
+    engines:
+      node: '>= 4'
+    resolution:
+      integrity: sha512-kXWL7Scp8KQ4552ZcdVTeaQCZSLW+e6nJfp3cwUMB673T7Hr98Xjx5JK+ql7ADlJUvj1JS5O01RLbKoutN5QDQ==
+  /inherits/2.0.3:
+    dev: false
+    resolution:
+      integrity: sha1-Yzwsg+PaQqUC9SRmAiSA9CCCYd4=
+  /json5/1.0.1:
+    dependencies:
+      minimist: 1.2.5
+    dev: false
+    hasBin: true
+    resolution:
+      integrity: sha512-aKS4WQjPenRxiQsC93MNfjx+nbF4PAdYzmd/1JIj8HYzqfbu86beTuNgXDzPknWk0n0uARlyewZo4s++ES36Ow==
+  /loader-utils/1.4.0:
+    dependencies:
+      big.js: 5.2.2
+      emojis-list: 3.0.0
+      json5: 1.0.1
+    dev: false
+    engines:
+      node: '>=4.0.0'
+    resolution:
+      integrity: sha512-qH0WSMBtn/oHuwjy/NucEgbx5dbxxnxup9s4PVXJUDHZBQY+s0NWA9rJf53RBnQZxfch7euUui7hpoAPvALZdA==
+  /minimist/1.2.5:
+    dev: false
+    resolution:
+      integrity: sha512-FM9nNUYrRBAELZQT3xeZQ7fmMOBg6nWNmJKTcgsJeaLstP/UODVpGsr5OhXhhXg6f+qtJ8uiZ+PUxkDWcgIXLw==
+  /path/0.12.7:
+    dependencies:
+      process: 0.11.10
+      util: 0.10.4
+    dev: false
+    resolution:
+      integrity: sha1-1NwqUGxM4hl+tIHr/NWzbAFAsQ8=
+  /phaser/3.22.0:
+    dependencies:
+      eventemitter3: 3.1.2
+      exports-loader: 0.7.0
+      imports-loader: 0.8.0
+      path: 0.12.7
+    dev: false
+    requiresBuild: true
+    resolution:
+      integrity: sha512-tTmLlnsz+NU9nnVq7jwy1pprpNo1+oFTWlMoSk76VJIdvQ0UIxNXToSijq/Ku2K4PqEuUY4QSYYHxmKv0Mbzhw==
+  /process/0.11.10:
+    dev: false
+    engines:
+      node: '>= 0.6.0'
+    resolution:
+      integrity: sha1-czIwDoQBYb2j5podHZGn1LwW8YI=
+  /source-map/0.5.0:
+    dev: false
+    engines:
+      node: '>=0.10.0'
+    resolution:
+      integrity: sha1-D+llA6yGpa213mP05BKuSHLNvoY=
+  /source-map/0.6.1:
+    dev: false
+    engines:
+      node: '>=0.10.0'
+    resolution:
+      integrity: sha512-UjgapumWlbMhkBgzT7Ykc5YXUT46F0iKu8SGXq0bcwP5dz/h0Plj6enJqjz1Zbq2l5WaqYnrVbwWOWMyF3F47g==
+  /util/0.10.4:
+    dependencies:
+      inherits: 2.0.3
+    dev: false
+    resolution:
+      integrity: sha512-0Pm9hTQ3se5ll1XihRic3FDIku70C+iHUdT/W926rSgHV5QgXsYbKZN8MSC3tJtSkhuROzvsQjAaFENRXr+19A==
+registry: 'https://registry.npmjs.org/'
+shrinkwrapMinorVersion: 9
+shrinkwrapVersion: 3
+specifiers:
+  phaser: ^3.22.0
