@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Catching Bytes!</title>
+    <link rel="stylesheet" href="/style.css" />
+    <link
+      href="https://fonts.googleapis.com/css?family=Bungee+Inline"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <!-- import the webpage's javascript file -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/phaser/3.22.0/phaser.min.js"></script>
+  </head>
+
+  <body>
+    <div class="horizontal-center">
+      <img
+        src="https://cdn.glitch.com/53ceab47-2bec-4103-a043-dc4ff2350250%2Fbgc-brand-logo.png?v=1587679845706"
+        class="bgc-logo"
+      />
+    </div>
+
+    <h1 class="center-text">Catching Bytes!</h1>
+    <section class="container">
+      <div id="game"></div>
+    </section>
+
+    <section id="instructions">
+      <h2>
+        How to Play:
+      </h2>
+      <p>
+        Welcome to Catching Bytes! Help Kiki catch all the bytes before all of
+        the Bugs come and take over the motherboard. If Kiki gets caught by
+        the bug it is gameover for the motherboard.
+      </p>
+      <div class="horizontal-center" style="margin-left: 120px !important;">
+        <img
+          src="https://cdn.glitch.com/53ceab47-2bec-4103-a043-dc4ff2350250%2FDirections.png?v=1587679528244"
+        />
+      </div>
+    </section>
+    <!-- include the Glitch button to show what the webpage is about and
+          to make it easier for folks to view source and remix -->
+    <div class="glitchButton" style="position:fixed;top:20px;right:20px;"></div>
+    <script src="https://button.glitch.me/button.js"></script>
+  </body>
+  <script>
+    const gameConfig = {
+      type: Phaser.CANVAS,
+      width: 800,
+      height: 600,
+      parent: "game",
+      physics: {
+        default: "arcade",
+        arcade: {
+          gravity: { y: 300 },
+          debug: false
+        }
+      },
+      scene: {
+        preload: preload,
+        create: create,
+        update: update
+      }
+    };
+
+    var platforms;
+    var player;
+    var bytes;
+    var bugs;
+    var platforms;
+    var cursors;
+    var score = 0;
+    var gameOver = false;
+    var scoreText;
+
+    const game = new Phaser.Game(gameConfig);
+
+    function preload() {
+      this.load.image(
+        "circuit",
+        "https://cdn.glitch.com/53ceab47-2bec-4103-a043-dc4ff2350250%2Fcircuit.png?v=1587250773292"
+      );
+      this.load.image(
+        "plane",
+        "https://cdn.glitch.com/53ceab47-2bec-4103-a043-dc4ff2350250%2Fplane.png?v=1587247448195"
+      );
+      this.load.image(
+        "byte",
+        "https://cdn.glitch.com/53ceab47-2bec-4103-a043-dc4ff2350250%2Fbytes.png?v=1587246178104"
+      );
+      this.load.image(
+        "bug",
+        "https://cdn.glitch.com/53ceab47-2bec-4103-a043-dc4ff2350250%2Fmalware.png?v=1587243692823"
+      );
+
+      this.load.spritesheet(
+        "kiki",
+        "https://cdn.glitch.com/53ceab47-2bec-4103-a043-dc4ff2350250%2Fkiki.png?v=1587241410981",
+        { frameWidth: 32, frameHeight: 48 }
+      );
+    }
+
+    function create() {
+      this.add.image(400, 300, "circuit");
+
+      platforms = this.physics.add.staticGroup();
+
+      platforms
+        .create(400, 568, "plane")
+        .setScale(2)
+        .refreshBody();
+      platforms.create(600, 400, "plane");
+      platforms.create(50, 250, "plane");
+      platforms.create(750, 220, "plane");
+
+      player = this.physics.add.sprite(100, 450, "kiki");
+
+      player.setBounce(0.2);
+      player.setCollideWorldBounds(true);
+
+      this.anims.create({
+        key: "left",
+        frames: this.anims.generateFrameNumbers("kiki", { start: 0, end: 3 }),
+        frameRate: 10,
+        repeat: -1
+      });
+
+      this.anims.create({
+        key: "turn",
+        frames: [{ key: "kiki", frame: 4 }],
+        frameRate: 20
+      });
+
+      this.anims.create({
+        key: "right",
+        frames: this.anims.generateFrameNumbers("kiki", { start: 5, end: 8 }),
+        frameRate: 10,
+        repeat: -1
+      });
+
+      cursors = this.input.keyboard.createCursorKeys();
+
+      this.physics.add.collider(player, platforms);
+
+      bytes = this.physics.add.group({
+        key: "byte",
+        repeat: 11,
+        setXY: { x: 12, y: 0, stepX: 70 }
+      });
+
+      bytes.children.iterate(function(child) {
+        child.setBounceY(Phaser.Math.FloatBetween(0.4, 0.8));
+      });
+
+      scoreText = this.add.text(16, 16, "score: 0", {
+        fontSize: "32px",
+        fill: "#000"
+      });
+
+      this.physics.add.collider(bytes, platforms);
+
+      this.physics.add.overlap(player, bytes, collectBytes, null, this);
+
+      bugs = this.physics.add.group();
+
+      this.physics.add.collider(bugs, platforms);
+
+      this.physics.add.collider(player, bugs, hitBugs, null, this);
+    }
+
+    function update() {
+      if (cursors.left.isDown) {
+        player.setVelocityX(-160);
+
+        player.anims.play("left", true);
+      } else if (cursors.right.isDown) {
+        player.setVelocityX(160);
+
+        player.anims.play("right", true);
+      } else {
+        player.setVelocityX(0);
+
+        player.anims.play("turn");
+      }
+
+      if (cursors.up.isDown && player.body.touching.down) {
+        player.setVelocityY(-330);
+      }
+    }
+
+    function collectBytes(player, byte) {
+      byte.disableBody(true, true);
+
+      score += 10;
+      scoreText.setText("Score: " + score);
+
+      if (bytes.countActive(true) === 0) {
+        //  A new batch of bytes to collect
+        bytes.children.iterate(function(child) {
+          child.enableBody(true, child.x, 0, true, true);
+        });
+
+        var x =
+          player.x < 400
+            ? Phaser.Math.Between(400, 800)
+            : Phaser.Math.Between(0, 400);
+
+        var bug = bugs.create(x, 16, "bug");
+        bug.setBounce(1);
+        bug.setCollideWorldBounds(true);
+        bug.setVelocity(Phaser.Math.Between(-200, 200), 20);
+        bug.allowGravity = false;
+      }
+    }
+
+    function hitBugs() {
+      this.physics.pause();
+
+      player.setTint(0xff0000);
+
+      player.anims.play("turn");
+
+      gameOver = true;
+    }
+  </script>
+</html>
